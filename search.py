@@ -26,13 +26,12 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     return genericSearch(problem, frontier=Queue())
   
-def aStarSearch(problem, heuristic):
-    return genericSearch(problem, frontier=PriorityQueueWithFunction(heuristic))
-
-def uniformCostSearch(problem):
-    return genericSearch(problem, frontier=PriorityQueueWithFunction(nullHeuristic))
-
-def nullHeuristic(problem, state):
+def aStarSearch(problem, heuristic=nullHeuristic):
+    def priorityFunc(node):
+        return node.cost + heuristic(node.state, problem)
+    return genericSearch(problem, frontier=util.PriorityQueueWithFunction(priorityFunc))
+    
+def nullHeuristic(problem, state): # for uniform cost search (djikstra)
   return 0
 
 class SearchNode:
